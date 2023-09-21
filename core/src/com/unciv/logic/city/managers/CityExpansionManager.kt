@@ -98,7 +98,7 @@ class CityExpansionManager : IsPartOfGameInfoSerialization {
         return cost.roundToInt()
     }
 
-    fun getChoosableTiles() = city.getCenterTile().getTilesInDistance(5)
+    fun getChoosableTiles() = city.getCenterTile().getTilesInDistance(civInfo.gameInfo.ruleset.modOptions.constants.tileExpansionRadius)
         .filter { it.getOwner() == null }
 
     fun chooseNewTileToOwn(): Tile? {
