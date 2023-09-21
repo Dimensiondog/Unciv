@@ -70,6 +70,9 @@ class ModConstants {
     var pantheonBase = 10
     var pantheonGrowth = 5
 
+    
+    var tileExpansionRadius = 5
+
     fun merge(other: ModConstants) {
         if (other.maxXPfromBarbarians != defaults.maxXPfromBarbarians) maxXPfromBarbarians = other.maxXPfromBarbarians
         if (other.cityStrengthBase != defaults.cityStrengthBase) cityStrengthBase = other.cityStrengthBase
@@ -94,6 +97,7 @@ class ModConstants {
         if (other.religionLimitMultiplier != defaults.religionLimitMultiplier) religionLimitMultiplier = other.religionLimitMultiplier
         if (other.pantheonBase != defaults.pantheonBase) pantheonBase = other.pantheonBase
         if (other.pantheonGrowth != defaults.pantheonGrowth) pantheonGrowth = other.pantheonGrowth
+        if (other.tileExpansionRadius != defaults.tileExpansionRadius) tileExpansionRadius = other.tileExpansionRadius
     }
 
     companion object {
