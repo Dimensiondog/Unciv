@@ -158,6 +158,7 @@ and city distance in another. In case of conflicts, there is no guarantee which 
 | religionLimitMultiplier                  | Float  | 0.5       | [^K]  |
 | pantheonBase                             | Int    | 10        | [^L]  |
 | pantheonGrowth                           | Int    | 5         | [^L]  |
+| tileExpansionRadius                      | Int    | 5         | [^M]  |
 
 
 Legend:
@@ -187,6 +188,7 @@ Legend:
 - [^J]: A [UnitUpgradeCost](#UnitUpgradeCost) sub-structure.
 - [^K]: Maximum foundable Religions = religionLimitBase + floor(MajorCivCount * religionLimitMultiplier)
 - [^L]: Cost of pantheon = pantheonBase + CivsWithReligion * pantheonGrowth
+- [^M]: Does not include the city centre tile
 
 #### UnitUpgradeCost
 
