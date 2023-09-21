@@ -159,6 +159,8 @@ and city distance in another. In case of conflicts, there is no guarantee which 
 | pantheonBase                             | Int    | 10        | [^L]  |
 | pantheonGrowth                           | Int    | 5         | [^L]  |
 | tileExpansionRadius                      | Int    | 5         | [^M]  |
+| workableTileRadius                       | Int    | 3         | [^M]  |
+
 
 
 Legend:
