@@ -72,6 +72,7 @@ class ModConstants {
 
     
     var tileExpansionRadius = 5
+    var workableTileRadius = 3
 
     fun merge(other: ModConstants) {
         if (other.maxXPfromBarbarians != defaults.maxXPfromBarbarians) maxXPfromBarbarians = other.maxXPfromBarbarians
@@ -98,6 +99,8 @@ class ModConstants {
         if (other.pantheonBase != defaults.pantheonBase) pantheonBase = other.pantheonBase
         if (other.pantheonGrowth != defaults.pantheonGrowth) pantheonGrowth = other.pantheonGrowth
         if (other.tileExpansionRadius != defaults.tileExpansionRadius) tileExpansionRadius = other.tileExpansionRadius
+        if (other.workableTileRadius != defaults.workableTileRadius) workableTileRadius = other.workableTileRadius
+
     }
 
     companion object {
