@@ -453,12 +453,10 @@ class Civilization : IsPartOfGameInfoSerialization {
     /** Destined to replace getMatchingUniques, gradually, as we fill the enum */
     fun getMatchingUniques(
         uniqueType: UniqueType,
-        stateForConditionals: StateForConditionals = StateForConditionals(this),
-        cityToIgnore: City? = null
+        stateForConditionals: StateForConditionals = StateForConditionals(this)
     ): Sequence<Unique> = sequence {
         yieldAll(nation.getMatchingUniques(uniqueType, stateForConditionals))
         yieldAll(cities.asSequence()
-            .filter { it != cityToIgnore }
             .flatMap { city -> city.getMatchingUniquesWithNonLocalEffects(uniqueType, stateForConditionals) }
         )
         yieldAll(policies.policyUniques.getMatchingUniques(uniqueType, stateForConditionals))
@@ -704,7 +702,10 @@ class Civilization : IsPartOfGameInfoSerialization {
     fun getTurnsTillCallForBarbHelp() = flagsCountdown[CivFlags.TurnsTillCallForBarbHelp.name]
 
     fun mayVoteForDiplomaticVictory() =
-        getTurnsTillNextDiplomaticVote() == 0
+        // Does not need checks for Barbarians or dead civs because the callers already ensure that
+        // (NextTurnAutomation.tryVoteForDiplomaticVictory and NextTurnAction.WorldCongressVote)
+        !isSpectator()
+        && getTurnsTillNextDiplomaticVote() == 0
         && civName !in gameInfo.diplomaticVictoryVotesCast.keys
         // Only vote if there is someone to vote for, may happen in one-more-turn mode
         && gameInfo.civilizations.any { it.isMajorCiv() && !it.isDefeated() && it != this }

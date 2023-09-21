@@ -555,11 +555,6 @@ Simple unique parameters are explained by mouseover. Complex parameters are expl
 ??? example  "Units in cities cost no Maintenance"
 	Applicable to: Global
 
-??? example  "Receive free [unit] when you discover [tech]"
-	Example: "Receive free [Musketman] when you discover [Agriculture]"
-
-	Applicable to: Global
-
 ??? example  "Enables embarkation for land units"
 	Applicable to: Global
 
@@ -606,7 +601,7 @@ Simple unique parameters are explained by mouseover. Complex parameters are expl
 ??? example  "Provides [amount] [resource]"
 	Example: "Provides [3] [Iron]"
 
-	Applicable to: Global, Improvement
+	Applicable to: Global, FollowerBelief, Improvement
 
 ??? example  "Quantity of strategic resources produced by the empire +[relativeAmount]%"
 	Example: "Quantity of strategic resources produced by the empire +[+20]%"
@@ -627,6 +622,9 @@ Simple unique parameters are explained by mouseover. Complex parameters are expl
 ??? example  "Science gained from research agreements [relativeAmount]%"
 	Example: "Science gained from research agreements [+20]%"
 
+	Applicable to: Global
+
+??? example  "Enables Defensive Pacts"
 	Applicable to: Global
 
 ??? example  "When declaring friendship, both parties gain a [relativeAmount]% boost to great person generation"
@@ -735,6 +733,11 @@ Simple unique parameters are explained by mouseover. Complex parameters are expl
 
 ??? example  "Population loss from nuclear attacks [relativeAmount]% [cityFilter]"
 	Example: "Population loss from nuclear attacks [+20]% [in all cities]"
+
+	Applicable to: Global
+
+??? example  "Damage to garrison from nuclear attacks [relativeAmount]% [cityFilter]"
+	Example: "Damage to garrison from nuclear attacks [+20]% [in all cities]"
 
 	Applicable to: Global
 
@@ -885,6 +888,12 @@ Simple unique parameters are explained by mouseover. Complex parameters are expl
 ??? example  "Starts with [policy] adopted"
 	Example: "Starts with [Oligarchy] adopted"
 
+	Applicable to: Nation
+
+??? example  "All units move through Forest and Jungle Tiles in friendly territory as if they have roads. These tiles can be used to establish City Connections upon researching the Wheel."
+	Applicable to: Nation
+
+??? example  "Units ignore terrain costs when moving into any tile with Hills"
 	Applicable to: Nation
 
 ??? example  "Will not be displayed in Civilopedia"
@@ -1387,6 +1396,9 @@ Simple unique parameters are explained by mouseover. Complex parameters are expl
 ??? example  "Doing so will consume this opportunity to choose a Promotion"
 	Applicable to: Promotion
 
+??? example  "This Promotion is free"
+	Applicable to: Promotion
+
 ## Terrain uniques
 ??? example  "Must be adjacent to [amount] [simpleTerrain] tiles"
 	Example: "Must be adjacent to [3] [Elevated] tiles"
@@ -1450,7 +1462,7 @@ Simple unique parameters are explained by mouseover. Complex parameters are expl
 	Applicable to: Terrain
 
 ??? example  "Vegetation"
-	Applicable to: Terrain
+	Applicable to: Terrain, Improvement
 
 ??? example  "Tile provides yield without assigned population"
 	Applicable to: Terrain, Improvement
@@ -1714,6 +1726,21 @@ Simple unique parameters are explained by mouseover. Complex parameters are expl
 ??? example  "Provides a unique luxury"
 	Applicable to: CityState
 
+## ModOptions uniques
+??? example  "Mod is incompatible with [modFilter]"
+	Example: "Mod is incompatible with [DeCiv Redux]"
+
+	Applicable to: ModOptions
+
+??? example  "Should only be used as permanent audiovisual mod"
+	Applicable to: ModOptions
+
+??? example  "Can be used as permanent audiovisual mod"
+	Applicable to: ModOptions
+
+??? example  "Cannot be used as permanent audiovisual mod"
+	Applicable to: ModOptions
+
 ## Conditional uniques
 !!! note ""
 
@@ -1856,9 +1883,6 @@ Simple unique parameters are explained by mouseover. Complex parameters are expl
 	Applicable to: Conditional
 
 ??? example  "&lt;in this city&gt;"
-	Applicable to: Conditional
-
-??? example  "&lt;in other cities&gt;"
 	Applicable to: Conditional
 
 ??? example  "&lt;in cities with a [buildingFilter]&gt;"
@@ -2011,6 +2035,9 @@ Simple unique parameters are explained by mouseover. Complex parameters are expl
 ??? example  "&lt;upon declaring friendship&gt;"
 	Applicable to: TriggerCondition
 
+??? example  "&lt;upon declaring a defensive pact&gt;"
+	Applicable to: TriggerCondition
+
 ??? example  "&lt;upon entering a Golden Age&gt;"
 	Applicable to: TriggerCondition
 
@@ -2115,6 +2142,7 @@ Simple unique parameters are explained by mouseover. Complex parameters are expl
 *[era]: The name of any era.
 *[foundingOrEnhancing]: `founding` or `enhancing`.
 *[improvementName]: The name of any improvement.
+*[modFilter]: A Mod name, case-sensitive _or_ a simple wildcard filter beginning and ending in an Asterisk, case-insensitive.
 *[policy]: The name of any policy.
 *[promotion]: The name of any promotion.
 *[relativeAmount]: This indicates a number, usually with a + or - sign, such as `+25` (this kind of parameter is often followed by '%' which is nevertheless not part of the value).

@@ -284,10 +284,6 @@ class CivInfoTransientCache(val civInfo: Civilization) {
         val newDetailedCivResources = ResourceSupplyList()
         for (city in civInfo.cities) newDetailedCivResources.add(city.getCityResources())
 
-        for (resourceSupply in newDetailedCivResources)
-            if (resourceSupply.amount > 0)
-                resourceSupply.amount = (resourceSupply.amount * civInfo.getResourceModifier(resourceSupply.resource)).toInt()
-
         if (!civInfo.isCityState()) {
             // First we get all these resources of each city state separately
             val cityStateProvidedResources = ResourceSupplyList()
@@ -296,6 +292,7 @@ class CivInfoTransientCache(val civInfo: Civilization) {
                 resourceBonusPercentage += unique.params[0].toFloat() / 100
             for (cityStateAlly in civInfo.getKnownCivs().filter { it.getAllyCiv() == civInfo.civName }) {
                 for (resourceSupply in cityStateAlly.cityStateFunctions.getCityStateResourcesForAlly()) {
+                    if (resourceSupply.resource.hasUnique(UniqueType.CannotBeTraded)) continue
                     val newAmount = (resourceSupply.amount * resourceBonusPercentage).toInt()
                     cityStateProvidedResources.add(resourceSupply.copy(amount = newAmount))
                 }
@@ -306,10 +303,11 @@ class CivInfoTransientCache(val civInfo: Civilization) {
 
         for (unique in civInfo.getMatchingUniques(UniqueType.ProvidesResources)) {
             if (unique.sourceObjectType == UniqueTarget.Building || unique.sourceObjectType == UniqueTarget.Wonder) continue // already calculated in city
+            val resource = civInfo.gameInfo.ruleset.tileResources[unique.params[1]]!!
             newDetailedCivResources.add(
-                civInfo.gameInfo.ruleset.tileResources[unique.params[1]]!!,
+                resource,
                 unique.sourceObjectType?.name ?: "",
-                unique.params[0].toInt()
+                (unique.params[0].toFloat() * civInfo.getResourceModifier(resource)).toInt()
             )
         }
 

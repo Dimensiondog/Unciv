@@ -3,8 +3,10 @@ package com.unciv.logic.trade
 import com.unciv.Constants
 import com.unciv.logic.automation.Automation
 import com.unciv.logic.automation.ThreatLevel
+import com.unciv.logic.automation.civilization.NextTurnAutomation
 import com.unciv.logic.city.City
 import com.unciv.logic.civilization.Civilization
+import com.unciv.logic.civilization.diplomacy.DiplomacyFlags
 import com.unciv.logic.civilization.diplomacy.RelationshipLevel
 import com.unciv.logic.map.tile.Tile
 import com.unciv.models.ruleset.ModOptionsConstants
@@ -74,12 +76,19 @@ class TradeEvaluation {
 
         var sumOfOurOffers = trade.ourOffers.sumOf { evaluateSellCost(it, evaluator, tradePartner) }
 
+        val relationshipLevel = evaluator.getDiplomacyManager(tradePartner).relationshipIgnoreAfraid()
         // If we're making a peace treaty, don't try to up the bargain for people you don't like.
         // Leads to spartan behaviour where you demand more, the more you hate the enemy...unhelpful
-        if (trade.ourOffers.none { it.name == Constants.peaceTreaty || it.name == Constants.researchAgreement }) {
-            val relationshipLevel = evaluator.getDiplomacyManager(tradePartner).relationshipIgnoreAfraid()
+        if (trade.ourOffers.none { it.name == Constants.peaceTreaty || it.name == Constants.researchAgreement}) {
             if (relationshipLevel == RelationshipLevel.Enemy) sumOfOurOffers = (sumOfOurOffers * 1.5).toInt()
             else if (relationshipLevel == RelationshipLevel.Unforgivable) sumOfOurOffers *= 2
+        }
+        if (trade.ourOffers.firstOrNull { it.name == Constants.defensivePact } != null) {
+            if (relationshipLevel == RelationshipLevel.Ally) {
+                //todo: Add more in depth evaluation here
+            } else {
+                return Int.MIN_VALUE
+            }
         }
 
         return sumOfTheirOffers - sumOfOurOffers
@@ -94,6 +103,7 @@ class TradeEvaluation {
                 return when (offer.name) {
                     // Since it will be evaluated twice, once when they evaluate our offer and once when they evaluate theirs
                     Constants.peaceTreaty -> evaluatePeaceCostForThem(civInfo, tradePartner)
+                    Constants.defensivePact -> 0
                     Constants.researchAgreement -> -offer.amount
                     else -> 1000
                 }
@@ -193,8 +203,11 @@ class TradeEvaluation {
                 return when (offer.name) {
                     // Since it will be evaluated twice, once when they evaluate our offer and once when they evaluate theirs
                     Constants.peaceTreaty -> evaluatePeaceCostForThem(civInfo, tradePartner)
+                    Constants.defensivePact -> if (NextTurnAutomation.wantsToSignDefensivePact(civInfo, tradePartner)) 0
+                        else 100000
                     Constants.researchAgreement -> -offer.amount
                     else -> 1000
+                    //Todo:AddDefensiveTreatyHere
                 }
             }
             TradeType.Luxury_Resource -> {
